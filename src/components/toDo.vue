@@ -52,13 +52,7 @@ export default {
   props: ["token"],
   data() {
     return {
-      todolists: {
-        body: [
-          {
-            name: "",
-          },
-        ],
-      },
+      todolists: [],
       error: null,
       todoInput: null,
     };
@@ -81,7 +75,8 @@ export default {
         },
       });
 
-      this.$delete(this.todolists.body, index);
+      this.getTodoList();
+      //this.$delete(this.todolists.body, index);
     }, 
     addToDo() {
       axios.post(
@@ -98,13 +93,15 @@ export default {
       const newToDo = {
         name: this.todoInput,
       };
-      this.todolists.body.push(newToDo);
+
+      this.getTodoList();
+      //this.todolists.body.push(newToDo);
     },
     deneme(id,index) {
       alert("Id:" + id + "  Index:" + index )
     }
   },
-  mounted: function () {
+  created() {
     this.getTodoList();
   },
 };
