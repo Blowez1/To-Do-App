@@ -1,6 +1,6 @@
-# todo-list
+# Frontend Developer Apply Demo Project - [Berke Batur]
 
-> Todo List Berke Batur
+> Frontend Developer Apply Demo Project - [Berke Batur]
 
 ## Build Setup
 
