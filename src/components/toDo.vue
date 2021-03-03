@@ -12,7 +12,8 @@
       </div>
       <div class="form-group">
         <button class="form-control" id="todo-btn" @click="addToDo()">
-          <span class="ml-2">Add</span>
+          <span v-if="editing" class="ml-2">Save</span>
+          <span v-else class="ml-2">Add</span>
         </button>
       </div>
     </div>
@@ -22,25 +23,44 @@
       <ul class="to-do-list-ul">
         <li v-for="(todo, index) in todolists.body" :key="todo.id">
           <span :title="todo.name" class="todo-name">{{ todo.name }}</span>
-          <button
-            @click="deleteTodo(todo.id, index)"
-            class="delete-btn d-flex justify-content-center align-items-center"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="14.922"
-              viewBox="0 0 15 14.922"
+          <div class="d-flex">
+            <button
+              class="alt-btn d-flex justify-content-center align-items-center"
+              @click="edit(todo.id, todo.name)"
             >
-              <path
-                id="close"
-                d="M16.475,15.419l6.18-6.18A.747.747,0,0,0,21.6,8.183l-6.18,6.18L9.208,8.214a.68.68,0,0,0-1.025,0,.74.74,0,0,0,0,1.056l6.18,6.149L8.183,21.6a.715.715,0,0,0,0,1.056.81.81,0,0,0,.528.217.681.681,0,0,0,.528-.217l6.211-6.18,6.211,6.149a.964.964,0,0,0,.528.217.779.779,0,0,0,.528-.217.715.715,0,0,0,0-1.056Z"
-                transform="translate(-7.95 -7.95)"
-                fill="#222327"
-              />
-            </svg>
-          </button>
-          <button @click="deneme(todo.id, index)">Deneme</button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="15"
+                viewBox="0 0 14.959 14.92"
+              >
+                <path
+                  id="pencil"
+                  d="M14.86,2.993c-.8-.821-1.619-1.69-2.417-2.488A1.008,1.008,0,0,0,11.762.2a.827.827,0,0,0-.634.235L1.671,9.8a.122.122,0,0,0-.047.094L.216,14.258l-.023.07a.61.61,0,0,0,.094.563h0a.724.724,0,0,0,.774.188L5.4,13.671a.178.178,0,0,0,.094-.047L14.86,4.26a.816.816,0,0,0,.258-.634A.879.879,0,0,0,14.86,2.993ZM4.769,12.521,1.718,13.53,2.7,10.479,9.439,3.885l1.995,1.995ZM12.3,4.988,10.307,2.993l1.361-1.361c.681.681,1.361,1.361,1.995,2.065Z"
+                  transform="translate(-0.159 -0.2)"
+                  fill="#222327"
+                />
+              </svg>
+            </button>
+            <button
+              @click="deleteTodo(todo.id, index)"
+              class="alt-btn d-flex justify-content-center align-items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15"
+                height="14.922"
+                viewBox="0 0 15 14.922"
+              >
+                <path
+                  id="close"
+                  d="M16.475,15.419l6.18-6.18A.747.747,0,0,0,21.6,8.183l-6.18,6.18L9.208,8.214a.68.68,0,0,0-1.025,0,.74.74,0,0,0,0,1.056l6.18,6.149L8.183,21.6a.715.715,0,0,0,0,1.056.81.81,0,0,0,.528.217.681.681,0,0,0,.528-.217l6.211-6.18,6.211,6.149a.964.964,0,0,0,.528.217.779.779,0,0,0,.528-.217.715.715,0,0,0,0-1.056Z"
+                  transform="translate(-7.95 -7.95)"
+                  fill="#222327"
+                />
+              </svg>
+            </button>
+          </div>
         </li>
       </ul>
     </div>
@@ -49,15 +69,25 @@
 <script>
 import axios from "axios";
 export default {
-  props: ["token"],
   data() {
     return {
+      token:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJlcmtlIEJhdHVyIiwiaWQiOjUxLCJpYXQiOjE2MTQ3ODY2ODgsImV4cCI6MTYxNDg1ODY4OH0.ZKDimdGgEC_mc1yXt_PIXvZ-0eP6b04e5_CePwjaxr0",
       todolists: [],
-      error: null,
       todoInput: null,
+      editing: false,
+      editingId: 0,
     };
   },
   methods: {
+    getToken() {
+      axios
+        .post("https://aodapi.eralpsoftware.net/login/apply", {
+          username: "aberkebatur@gmail.com",
+          password: "123456",
+        })
+        .then((response) => (this.token = response.data.token));
+    },
     getTodoList() {
       axios
         .get("https://aodapi.eralpsoftware.net/todo", {
@@ -77,31 +107,45 @@ export default {
 
       this.getTodoList();
       //this.$delete(this.todolists.body, index);
-    }, 
+    },
     addToDo() {
-      axios.post(
-        "https://aodapi.eralpsoftware.net/todo",
-        {
-          name: this.todoInput,
-        },
-        {
-          headers: {
-            token: this.token,
-          },
+      if (this.todoInput !== "") {
+        if (this.editing) {
+          axios.put("https://aodapi.eralpsoftware.net/todo/"+ this.editingId , {
+            name : this.todoInput
+          }, {
+            headers: {
+          token: this.token,
         }
-      );
-      const newToDo = {
-        name: this.todoInput,
-      };
-
-      this.getTodoList();
+          });
+          this.getTodoList();
+          this.todoInput = "";
+          this.editing = false;
+        } 
+        else {
+          axios.post(
+            "https://aodapi.eralpsoftware.net/todo",
+            {
+              name: this.todoInput,
+            },
+            {
+              headers: {
+                token: this.token,
+              },
+            }
+          );
+          this.getTodoList();
+        }
+      }
       //this.todolists.body.push(newToDo);
     },
-    deneme(id,index) {
-      alert("Id:" + id + "  Index:" + index )
-    }
+    edit(id, name) {
+      this.todoInput = name;
+      this.editing = true;
+      this.editingId = id;
+    },
   },
-  created() {
+  mounted: function () {
     this.getTodoList();
   },
 };
@@ -209,7 +253,7 @@ export default {
   text-overflow: ellipsis;
 }
 
-.delete-btn {
+.alt-btn {
   background: transparent;
   border: none;
   cursor: pointer;
