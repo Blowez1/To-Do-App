@@ -24,7 +24,8 @@
         <li v-for="todo in todolists.body" :key="todo.id">
           <span :title="todo.name" class="todo-name">{{ todo.name }}</span>
           <div class="d-flex">
-            <button title="Edit"
+            <button
+              title="Edit"
               class="alt-btn d-flex justify-content-center align-items-center"
               @click="edit(todo.id, todo.name)"
             >
@@ -43,7 +44,8 @@
               </svg>
             </button>
             <button
-              @click="deleteTodo(todo.id)" title="Delete"
+              @click="deleteTodo(todo.id)"
+              title="Delete"
               class="alt-btn d-flex justify-content-center align-items-center"
             >
               <svg
@@ -73,10 +75,10 @@ export default {
     return {
       token:
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJlcmtlIEJhdHVyIiwiaWQiOjUxLCJpYXQiOjE2MTQ3ODY2ODgsImV4cCI6MTYxNDg1ODY4OH0.ZKDimdGgEC_mc1yXt_PIXvZ-0eP6b04e5_CePwjaxr0",
-      todolists: [],
+      todolists: {},
       todoInput: null,
       editing: false,
-      editingId: 0,
+      editingId: 0
     };
   },
   methods: {
@@ -87,7 +89,6 @@ export default {
             token: this.token,
           },
         })
-
         .then((response) => (this.todolists = response.data));
     },
     deleteTodo(id) {
@@ -95,25 +96,28 @@ export default {
         headers: {
           token: this.token,
         },
-      })
+      });
 
-      this.getTodoList()
+      this.getTodoList();
     },
     addToDo() {
-      if (this.todoInput !== "") {
+      if (this.todoInput !== null) {
         if (this.editing) {
-          axios.put("https://aodapi.eralpsoftware.net/todo/"+ this.editingId , {
-            name : this.todoInput
-          }, {
-            headers: {
-          token: this.token,
-        }
-          });
-          this.getTodoList()
+          axios.put(
+            "https://aodapi.eralpsoftware.net/todo/" + this.editingId,
+            {
+              name: this.todoInput,
+            },
+            {
+              headers: {
+                token: this.token,
+              },
+            }
+          );
           this.todoInput = "";
           this.editing = false;
-        } 
-        else {
+          this.getTodoList();
+        } else {
           axios.post(
             "https://aodapi.eralpsoftware.net/todo",
             {
@@ -125,7 +129,7 @@ export default {
               },
             }
           );
-          this.getTodoList()
+          this.getTodoList();
         }
       }
     },
@@ -136,7 +140,7 @@ export default {
     },
   },
   mounted: function () {
-    this.getTodoList()
+    this.getTodoList();
   },
 };
 </script>
