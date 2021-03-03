@@ -2,6 +2,8 @@
 
 > Frontend Developer Apply Demo Project - [Berke Batur]
 
+Projede Vue js ve Axios kütüphanesini kullandım.
+
 *CRUD işlemleri eksiksiz çalışıyor fakat bazen gelen verileri F5 yapmayınca yenilemiyor, ben de bir çözümünü bulamadım. İlk defa Vue CLI kullandım, önceden sadece CDN Vue kullanmıştım. Elimden geleni yaptım, Değerlendirirseniz sevinirim. Ayrıca teşekkür ederim sizden görüş bekliyorum, Berke Batur.
 
 ## Build Setup
@@ -9,6 +11,9 @@
 ``` bash
 # install dependencies
 npm install
+
+# to install axios
+npm install axios
 
 # serve with hot reload at localhost:8080
 npm run dev
