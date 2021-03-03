@@ -21,7 +21,7 @@
     <div>
       <h6 class="mb-3 alt-title">To Do's:</h6>
       <ul class="to-do-list-ul">
-        <li v-for="(todo, index) in todolists.body" :key="todo.id">
+        <li v-for="todo in todolists.body" :key="todo.id">
           <span :title="todo.name" class="todo-name">{{ todo.name }}</span>
           <div class="d-flex">
             <button title="Edit"
@@ -43,7 +43,7 @@
               </svg>
             </button>
             <button
-              @click="deleteTodo(todo.id, index)" title="Delete"
+              @click="deleteTodo(todo.id)" title="Delete"
               class="alt-btn d-flex justify-content-center align-items-center"
             >
               <svg
@@ -90,15 +90,14 @@ export default {
 
         .then((response) => (this.todolists = response.data));
     },
-    deleteTodo(id, index) {
+    deleteTodo(id) {
       axios.delete("https://aodapi.eralpsoftware.net/todo/" + id, {
         headers: {
           token: this.token,
         },
-      });
+      })
 
-      this.getTodoList();
-      //this.$delete(this.todolists.body, index);
+      this.getTodoList()
     },
     addToDo() {
       if (this.todoInput !== "") {
@@ -110,7 +109,7 @@ export default {
           token: this.token,
         }
           });
-          this.getTodoList();
+          this.getTodoList()
           this.todoInput = "";
           this.editing = false;
         } 
@@ -126,7 +125,7 @@ export default {
               },
             }
           );
-          this.getTodoList();
+          this.getTodoList()
         }
       }
     },
@@ -137,7 +136,7 @@ export default {
     },
   },
   mounted: function () {
-    this.getTodoList();
+    this.getTodoList()
   },
 };
 </script>
