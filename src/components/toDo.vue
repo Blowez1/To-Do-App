@@ -12,8 +12,8 @@
       </div>
       <div class="form-group">
         <button class="form-control" id="todo-btn" @click="addToDo()">
-          <span v-if="editing" class="ml-2">Save</span>
-          <span v-else class="ml-2">Add</span>
+          <span v-if="editing" title="Save" class="ml-2">Save</span>
+          <span title="Add" v-else class="ml-2">Add</span>
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
         <li v-for="(todo, index) in todolists.body" :key="todo.id">
           <span :title="todo.name" class="todo-name">{{ todo.name }}</span>
           <div class="d-flex">
-            <button
+            <button title="Edit"
               class="alt-btn d-flex justify-content-center align-items-center"
               @click="edit(todo.id, todo.name)"
             >
@@ -43,7 +43,7 @@
               </svg>
             </button>
             <button
-              @click="deleteTodo(todo.id, index)"
+              @click="deleteTodo(todo.id, index)" title="Delete"
               class="alt-btn d-flex justify-content-center align-items-center"
             >
               <svg
@@ -80,14 +80,6 @@ export default {
     };
   },
   methods: {
-    getToken() {
-      axios
-        .post("https://aodapi.eralpsoftware.net/login/apply", {
-          username: "aberkebatur@gmail.com",
-          password: "123456",
-        })
-        .then((response) => (this.token = response.data.token));
-    },
     getTodoList() {
       axios
         .get("https://aodapi.eralpsoftware.net/todo", {
@@ -137,7 +129,6 @@ export default {
           this.getTodoList();
         }
       }
-      //this.todolists.body.push(newToDo);
     },
     edit(id, name) {
       this.todoInput = name;
