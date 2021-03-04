@@ -4,6 +4,12 @@
 
 Projede Vue js ve Axios kütüphanesini kullandım.
 
+Token'nin süresi bittiğinde post request atıp tokene eşitlediğim bir methodum var fakar proje public diye bilgilerimi eklemedim.
+
+Eğer tokenin süresi dolmuş ise tekrardan methodu çalıştırıp tokene yapıştırırsanız çok sevinirim :D.
+
+Otomatik token almayı yapamadım.
+
 *CRUD işlemleri eksiksiz çalışıyor fakat bazen gelen verileri F5 yapmayınca yenilemiyor, ben de bir çözümünü bulamadım. İlk defa Vue CLI kullandım, önceden sadece CDN Vue kullanmıştım. Elimden geleni yaptım, Değerlendirirseniz sevinirim. Ayrıca teşekkür ederim sizden görüş bekliyorum, Berke Batur.
 
 ## Build Setup
