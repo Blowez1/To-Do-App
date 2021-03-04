@@ -10,8 +10,6 @@
         </div>
       </div>
     </div>
-
-    <!--<button @click="getToken()" class="btn btn-danger">Token Oluştur</button> -->
   </div>
 </template>
 
@@ -22,10 +20,7 @@ export default {
   name: "app",
   components: {
     "to-do": toDo,
-  },
-  data() {
-    return {};
-  },
+  }
 };
 </script>
 <style lang="scss">

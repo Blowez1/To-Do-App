@@ -74,11 +74,11 @@ export default {
   data() {
     return {
       token:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJlcmtlIEJhdHVyIiwiaWQiOjUxLCJpYXQiOjE2MTQ4Nzc4MzksImV4cCI6MTYxNDk0OTgzOX0.K0YJWWDknOmfM-6ezUV6HdxNONpBnzOg2Z1VW8uP_KE",
-      todolists: {},
-      todoInput: null,
-      editing: false,
-      editingId: 0
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkJlcmtlIEJhdHVyIiwiaWQiOjUxLCJpYXQiOjE2MTQ4Nzc4MzksImV4cCI6MTYxNDk0OTgzOX0.K0YJWWDknOmfM-6ezUV6HdxNONpBnzOg2Z1VW8uP_KE", //Token
+      todolists: {}, //To do elemanlarının olduğu obje.
+      todoInput: null, //Veriyi bu input sayesinde alıyorum.
+      editing: false, //Düzenleme işlemi aktif değil.
+      editingId: 0 //Düzenlenen To do nun id si.
     };
   },
   methods: {
@@ -89,6 +89,8 @@ export default {
           password: "",
         })
         .then((response) => (this.token = response.data.token));
+
+        //Kullanıcı bilgilerim ile beraber token almak için API ye istekte bulunup dönen veriden tokeni, token değişkenine yapıştırıyorum.
     },
     getTodoList() {
       axios
@@ -98,6 +100,8 @@ export default {
           },
         })
         .then((response) => (this.todolists = response.data));
+
+        //API deki verileri çekme isteğinde bulunup todolists adlı objeme eşitliyorum.
     },
     deleteTodo(id) {
       axios.delete("https://aodapi.eralpsoftware.net/todo/" + id, {
@@ -105,10 +109,11 @@ export default {
           token: this.token,
         },
       });
-
+      //Silme tuşuna basıldığı zaman gelen id sayesinde silme isteğinde bulunuyorum 
       this.getTodoList();
     },
     addToDo() {
+      //Eğer input boş değilse düzenleme aktif mi diye kontrol edip düzenleme yada ekleme isteğinde bulunuyorum. 
       if (this.todoInput !== null) {
         if (this.editing) {
           axios.put(
@@ -145,10 +150,12 @@ export default {
       this.todoInput = name;
       this.editing = true;
       this.editingId = id;
+      //Düzenleme fonksiyonu
     },
   },
   mounted: function () {
     this.getTodoList();
+    //Sayfanın ilk açılışında verileri get yapıyorum.
   },
 };
 </script>
