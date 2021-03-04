@@ -1,6 +1,5 @@
-# Frontend Developer Apply Demo Project - [Berke Batur]
+# To Do App - [Berke Batur]
 
-> Frontend Developer Apply Demo Project - [Berke Batur]
 
 Projede Vue js ve Axios kütüphanesini kullandım.
 
