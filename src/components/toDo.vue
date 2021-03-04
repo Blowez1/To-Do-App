@@ -19,7 +19,7 @@
     </div>
 
     <div>
-      <h6 class="mb-3 alt-title">To Do's:</h6>
+      <h6 class="mb-3 alt-title">To Do's: </h6>
       <ul class="to-do-list-ul">
         <li v-for="todo in todolists.body" :key="todo.id">
           <span :title="todo.name" class="todo-name">{{ todo.name }}</span>
@@ -82,6 +82,14 @@ export default {
     };
   },
   methods: {
+    getToken() {
+      axios
+        .post("https://aodapi.eralpsoftware.net/login/apply", {
+          username: "",
+          password: "",
+        })
+        .then((response) => (this.token = response.data.token));
+    },
     getTodoList() {
       axios
         .get("https://aodapi.eralpsoftware.net/todo", {
